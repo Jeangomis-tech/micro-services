@@ -12,8 +12,8 @@ public class CustomerMapper {
         customerDto.setMobileNumber(customer.getMobileNumber());
         return customerDto;
     }
-    public static Customer mapDtoToCustomer(CustomerDto customerDto) {
-        Customer customer = new Customer();
+    public static Customer mapDtoToCustomer(CustomerDto customerDto, Customer customer) {
+//        Customer customer = new Customer();
         customer.setEmail(customerDto.getEmail());
         customer.setName(customerDto.getName());
         customer.setMobileNumber(customerDto.getMobileNumber());

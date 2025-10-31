@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public void createAccount(CustomerDto customerDto) {
-       Customer customer = CustomerMapper.mapDtoToCustomer(customerDto);
+       Customer customer = CustomerMapper.mapDtoToCustomer(customerDto, new Customer());
         Optional<Customer> optinalCustomer = customerRepository.findByMobileNumber(customerDto.getMobileNumber());
         if(optinalCustomer.isPresent()){
             throw new CustomerAlreadyExistException("Customer already exist with given number"+customerDto.getMobileNumber());
@@ -58,8 +58,43 @@ public class AccountServiceImpl implements AccountService {
                 -> new ResourceNotFoundException("Account", "customerId", customer.getCustomerId().toString())
         );
         CustomerDto customerDto = CustomerMapper.mapCustomerToDto(customer);
-        customerDto.setAccountsDto(AccountsMapper.toAccountsDto(accounts));
+        customerDto.setAccountsDto(AccountsMapper.toAccountsDto(accounts, new AccountsDto()));
         return customerDto;
+    }
+
+    /**
+     * @param customerDto
+     * @return
+     */
+    @Override
+    public boolean updateAccount(CustomerDto customerDto) {
+        boolean isUpdated = false;
+        AccountsDto accountsDto = customerDto.getAccountsDto();
+
+        if(accountsDto != null){
+            Accounts accounts = accountsRepository.findById(accountsDto.getAccountNumber())
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Account", "AccountNumber", accountsDto.getAccountNumber().toString()
+                    ));
+
+            // CORRECTION : Mapper le DTO vers l'entité
+            AccountsMapper.toAccounts(accountsDto, accounts);
+            accounts = accountsRepository.save(accounts);
+
+            Long customerId = accounts.getCustomerId();
+            Customer customer = customerRepository.findById(customerId)
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Customer", "customerId", customerId.toString()
+                    ));
+
+            // CORRECTION : Mapper le DTO vers l'entité et utiliser le résultat
+            CustomerMapper.mapDtoToCustomer(customerDto, customer);
+            customerRepository.save(customer);
+
+            isUpdated = true;
+        }
+
+        return isUpdated;
     }
 
 
