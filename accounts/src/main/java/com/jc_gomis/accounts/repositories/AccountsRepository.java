@@ -1,0 +1,16 @@
+package com.jc_gomis.accounts.repositories;
+
+import com.jc_gomis.accounts.dto.AccountsDto;
+import com.jc_gomis.accounts.dto.CustomerDto;
+import com.jc_gomis.accounts.entities.Accounts;
+import com.jc_gomis.accounts.entities.Customer;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface AccountsRepository extends JpaRepository<Accounts, Long> {
+
+    Optional<Accounts> findByCustomerId(Long customerId);
+}
