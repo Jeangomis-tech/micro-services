@@ -57,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
         Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(()
                 -> new ResourceNotFoundException("Account", "customerId", customer.getCustomerId().toString())
         );
-        CustomerDto customerDto = CustomerMapper.mapCustomerToDto(customer);
+        CustomerDto customerDto = CustomerMapper.mapCustomerToDto(customer, new CustomerDto());
         customerDto.setAccountsDto(AccountsMapper.toAccountsDto(accounts, new AccountsDto()));
         return customerDto;
     }
@@ -78,7 +78,7 @@ public class AccountServiceImpl implements AccountService {
                     ));
 
             // CORRECTION : Mapper le DTO vers l'entité
-            AccountsMapper.toAccounts(accountsDto, accounts);
+            AccountsMapper.mapDtoToAccounts(accountsDto, accounts);
             accounts = accountsRepository.save(accounts);
 
             Long customerId = accounts.getCustomerId();

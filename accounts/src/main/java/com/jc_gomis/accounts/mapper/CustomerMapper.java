@@ -5,8 +5,8 @@ import com.jc_gomis.accounts.entities.Customer;
 
 public class CustomerMapper {
 
-    public static CustomerDto mapCustomerToDto(Customer customer) {
-        CustomerDto customerDto = new CustomerDto();
+    public static CustomerDto mapCustomerToDto(Customer customer, CustomerDto customerDto) {
+//        CustomerDto customerDto = new CustomerDto();
         customerDto.setEmail(customer.getEmail());
         customerDto.setName(customer.getName());
         customerDto.setMobileNumber(customer.getMobileNumber());
