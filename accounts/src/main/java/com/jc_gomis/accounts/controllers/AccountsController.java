@@ -34,7 +34,7 @@ public class AccountsController {
         return  ResponseEntity.status(HttpStatus.OK)
                 .body(customerDto);
     }
-    @RequestMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<ResponseDto> updateAccount(@RequestBody CustomerDto customerDto) {
         boolean isUpdated = accountService.updateAccount(customerDto);
         if(isUpdated) {
@@ -45,6 +45,18 @@ public class AccountsController {
                     .body(new ResponseDto(AccountConstants.STATUS_500, AccountConstants.MESSAGE_500));
         }
     }
+    @DeleteMapping("/delete")
+    public ResponseEntity<ResponseDto> deleteAccount(@RequestParam String mobileNumber) {
+        boolean isDeleted = accountService.deleteAccount(mobileNumber);
+        if(isDeleted) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDto(AccountConstants.STATUS_200, AccountConstants.MESSAGE_200));
+        }else{
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDto(AccountConstants.STATUS_500, AccountConstants.MESSAGE_500));
+        }
+    }
+
 
 
 }
