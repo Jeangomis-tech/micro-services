@@ -82,6 +82,15 @@ public class AccountsController {
                     )
 
                     )
+            ),
+            @ApiResponse(
+                    responseCode = "417",
+                    description = "HTTP Status EXPECTATION_FAILED",
+                    content = @Content(schema = @Schema(
+                            implementation = ErrorResponseDto.class
+                    )
+
+                    )
             )
     })
     @PutMapping("/update")
@@ -91,8 +100,8 @@ public class AccountsController {
             return  ResponseEntity.status(HttpStatus.OK )
                     .body(new ResponseDto(AccountConstants.STATUS_200, AccountConstants.MESSAGE_200));
         }else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDto(AccountConstants.STATUS_500, AccountConstants.MESSAGE_500));
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+                    .body(new ResponseDto(AccountConstants.STATUS_417, AccountConstants.MESSAGE_417_UPDATE));
         }
     }
     @ApiResponses({
@@ -103,6 +112,15 @@ public class AccountsController {
             @ApiResponse(
                     responseCode = "500",
                     description = "HTTP Status Internal Server Error"
+            ),
+            @ApiResponse(
+                    responseCode = "417",
+                    description = "HTTP Status EXPECTATION_FAILED",
+                    content = @Content(schema = @Schema(
+                            implementation = ErrorResponseDto.class
+                    )
+
+                    )
             )
     })
     @DeleteMapping("/delete")
@@ -113,8 +131,8 @@ public class AccountsController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseDto(AccountConstants.STATUS_200, AccountConstants.MESSAGE_200));
         }else{
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDto(AccountConstants.STATUS_500, AccountConstants.MESSAGE_500));
+            return  ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+                    .body(new ResponseDto(AccountConstants.STATUS_417, AccountConstants.MESSAGE_417_DELETE));
         }
     }
 
