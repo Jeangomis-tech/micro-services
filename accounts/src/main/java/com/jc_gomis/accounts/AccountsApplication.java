@@ -13,5 +13,5 @@ public class AccountsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AccountsApplication.class, args);
 	}
-
+    //https://github.com/eazybytes/microservices/blob/3.4.1/section2/accounts/src/main/java/com/eazybytes/accounts/mapper/AccountsMapper.java
 }
